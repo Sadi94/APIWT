@@ -35,7 +35,7 @@ class StudentController extends Controller
     );
        
         // return view('pages.student.studentRegistration');
-        return "ok";
+        return "User Registered Succesfully.";
 
     }
 
@@ -63,7 +63,7 @@ class StudentController extends Controller
     $mail=$request->email;
     $password=$request->password;
     if( $mail==$email[0] &&  $password== $pass[0])
-    return "login successful";
+    return "Welcome...! login successfull.";
    }
 
 }
