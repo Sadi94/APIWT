@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
-use App\Http\Controllers\StudentController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +18,7 @@ use App\Http\Controllers\StudentController;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/home', [PagesController::class, 'home'])->name('home');
 
 Route::get('/products', [PagesController::class, 'products'])->name('products');
@@ -29,13 +30,22 @@ Route::get('/aboutUs', [PagesController::class, 'aboutUs'])->name('aboutUs');
 Route::get('/contactUs', [PagesController::class, 'contactUs'])->name('contactUs');
 Route::post('/contactUs', [PagesController::class, 'contactUsSubmit'])->name('contactUs');
 
-// studeny route
-Route::get('/studentRegistration', [StudentController::class, 'studentRegistration'])->name('studentRegistration');
-Route::post('/studentRegistration', [StudentController::class, 'studentRegistrationSubmit'])->name('studentRegistration');
+// admin route
+Route::get('/adminRegistration', [AdminController::class, 'adminRegistration'])->name('adminRegistration');
+Route::post('/adminRegistration', [AdminController::class, 'adminRegistrationSubmit'])->name('adminRegistration');
+//admin
+Route::get('/loginForm', [AdminController::class, 'loginForm'])->name('loginForm');
+Route::post('/loginForm', [AdminController::class, 'loginFormSubmit'])->name('loginForm');
 
-// Route::get('/login', [StudentController::class, 'login'])->name('login');
-// Route::post('/login', [StudentController::class, 'loginSubmit'])->name('login');
+// user
+Route::get('/userRegistration', [AdminController::class, 'userRegistration'])->name('userRegistration');
+Route::post('/userRegistration', [AdminController::class, 'userRegistrationSubmit'])->name('userRegistration');
 
-Route::get('/loginForm', [StudentController::class, 'loginForm'])->name('loginForm');
-Route::post('/loginForm', [StudentController::class, 'loginFormSubmit'])->name('loginForm');
+Route::get('/userLogin', [AdminController::class, 'userLogin'])->name('userLogin');
+Route::post('/userLogin', [AdminController::class, 'userLoginSubmit'])->name('userLogin');
+Route::get('/userDash', [AdminController::class, 'userDash'])->name('userDash')->middleware("ValidUser");
+// ->middleware("ValidAdmin");
+Route::get('/userLogout', [AdminController::class, 'userLogout'])->name('userLogout');
 
+Route::get('/userUpdate', [AdminController::class, 'userUpdate'])->name('userUpdate')->middleware("ValidUser");
+Route::post('/userUpdate',[AdminController::class,'userUpdateSubmitted']);
