@@ -403,6 +403,8 @@ class CustomerController extends Controller
          return view('pages.rating.customersAll_S_rating')->with(['customer' => $customers, 'ratings' => $customerS_ratings]);
      }
 //api function
+
+//api get method
      public function Customers($id=null){
         if($id==''){
             $Customer = Customer::get();
@@ -413,18 +415,26 @@ class CustomerController extends Controller
         }
      }
 
-    //  public function CustomerPost(Request $req){
-    //     $Customer = new Customer();
-    //     // "id": 3
-    //     $Customer->role = $req->role;
-    //     $Customer->name = $req->name;
-    //     $Customer->email = $req->email;
-    //     $Customer->address = $req->address;
-    //     $Customer->phone = $req->phone;
-    //     $Customer->password = $req->password;
-    //     $Customer->image = $req->image;
-    //     $Customer->status = $req->status;
-    //     $Customer->save();
-    //     return $req;
-    // }
+     //api post method
+     public function CustomerPost(Request $request){
+        if ($request-> ismethod('post')){
+            $data = $request->all();
+            //return $data;
+
+            $Customer = new Customer();
+            $Customer->role = $data['role'];
+            $Customer->name = $data['name'];
+            $Customer->email = $data['email'];
+            $Customer->address = $data['address'];
+            $Customer->phone = $data['phone'];
+            $Customer->password = bcrypt($data['password']);
+            $Customer->image = $data['image'];
+            $Customer->status = $data['status'];
+            $Customer->save();
+            $message = "Customer added succesfully";
+            return response()->json(['message'=>$message],201);
+        }
+        //return request()->json(['message'=>$message],201);
+
+    }
 }

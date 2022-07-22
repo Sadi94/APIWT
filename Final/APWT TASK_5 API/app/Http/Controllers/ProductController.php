@@ -202,4 +202,40 @@ class ProductController extends Controller
         $productRatings =  $product->productRatings; // function 
         return view('pages.product.productRatings')->with(['product' => $products, 'ratings' => $productRatings]);
     }
+
+    //api function
+
+    //api get method
+    public function APIList($id=null){
+        if($id==''){
+            $product = Product::get();
+            return response()->json(['Product'=>$Product],200);
+        }else{
+            $Customer = Customer::find($id);
+            return response()->json(['Product'=>$Product],200);
+        }
+    }
+
+    //api post method
+    public function CustomerPost(Request $request){
+        if ($request-> ismethod('post')){
+            $data = $request->all();
+            //return $data;
+
+            $Customer = new Customer();
+            $Customer->role = $data['role'];
+            $Customer->name = $data['name'];
+            $Customer->email = $data['email'];
+            $Customer->address = $data['address'];
+            $Customer->phone = $data['phone'];
+            $Customer->password = bcrypt($data['password']);
+            $Customer->image = $data['image'];
+            $Customer->status = $data['status'];
+            $Customer->save();
+            $message = "Customer added succesfully";
+            return response()->json(['message'=>$message],201);
+        }
+        //return request()->json(['message'=>$message],201);
+
+    }
 }
